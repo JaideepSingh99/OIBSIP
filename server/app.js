@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 
 import {PORT} from "./config/env.js";
 import connectToDatabase from "./database/mongodb.js";
+import {errorMiddleware, notFoundHandler} from "./middleware/error.middleware.js";
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send("Server is running");
 });
+
+app.use(notFoundHandler);
+app.use(errorMiddleware);
 
 app.listen(PORT, async () => {
     console.log(`Server is running on http://localhost:${PORT}`);
