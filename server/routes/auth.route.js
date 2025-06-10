@@ -7,11 +7,13 @@ import {
     resetPassword,
     verifyEmail
 } from "../controller/auth.controller.js";
+import {validate} from "../middleware/validate.middleware.js";
+import {loginSchema, registerSchema} from "../validations/auth.validation.js";
 
 const authRouter = Router();
 
-authRouter.post('/register', register);
-authRouter.post('/login', login);
+authRouter.post('/register', validate(registerSchema), register);
+authRouter.post('/login', validate(loginSchema), login);
 authRouter.post('/logout', logout);
 authRouter.post('/verify-email/:token', verifyEmail);
 authRouter.post('/forgot-password', forgotPassword);
